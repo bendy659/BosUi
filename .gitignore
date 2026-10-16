@@ -1,0 +1,13 @@
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+run/
+versions/
+.sc_active_version
+.kotlin/
+BosLib

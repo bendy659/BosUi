@@ -1,0 +1,28 @@
+{
+    "schemaVersion": 1,
+    "id": "bosui",
+    "version": "${version}",
+    "name": "BosUi",
+    "description": "Mod-library for help create custom UI for my (_BENDY659_) projects",
+    "authors": [ "_BENDY659_" ],
+    "contact": {},
+    "license": "MIT",
+    "icon": "icon.png",
+    "environment": "client",
+    "entrypoints": {
+        "client": [
+            { "adapter": "kotlin", "value": "ru.benos.bosui.client.loaders.FabricClientModLoader"}
+        ]
+    },
+    "mixins": [
+        { "config": "bosui.mixins.json", "environment": "client" }
+    ],
+    "accessWidener": "bosui.accesswidener",
+    "depends": {
+        "fabricloader": ">=${fabric_loader}",
+        "minecraft": "${mc_compat}",
+        "java": ">=21",
+        "fabric-language-kotlin": ">=1.13.0",
+        "boslib": ">=1.0"
+    }
+}
