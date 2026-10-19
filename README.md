@@ -1,6 +1,6 @@
 # BosUi
 
-Mod-library for help create custom UI for my (_BENDY659_) projects
+Mod-library for help create custom UI for my (\_BENDY659\_) projects
 
 ## Built with Stonecutter
 This project uses [Stonecutter](https://github.com/kikugie/stonecutter) for multi-version and multi-loader Minecraft mod development.
