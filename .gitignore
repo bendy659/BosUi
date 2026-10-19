@@ -10,4 +10,4 @@ run/
 versions/
 .sc_active_version
 .kotlin/
-BosLib
+.deps.BosLib/**

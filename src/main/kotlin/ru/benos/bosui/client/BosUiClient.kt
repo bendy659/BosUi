@@ -1,7 +1,10 @@
 package ru.benos.bosui.client
 
+import com.mojang.blaze3d.platform.InputConstants
+import net.minecraft.client.KeyMapping
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import ru.benos.boslib.helpers.BosLibIdentifierHelper.identifier
 import ru.benos.bosui.client.loaders.IModLoader
 
 object BosUiClient {
@@ -11,5 +14,8 @@ object BosUiClient {
 
     lateinit var LOADER: IModLoader
 
-    fun initClient(loader: IModLoader) { LOADER = loader; LOGGER.info("Initialized $MOD_NAME on ${loader.name}") }
+    val keybindCategory: KeyMapping.Category = KeyMapping.Category("${MOD_ID}:keybinds".identifier)
+    val OPEN_DEMO_UI: KeyMapping = KeyMapping("open_demo_ui", InputConstants.KEY_G, keybindCategory)
+
+    fun initClient(loader: IModLoader) { LOADER = loader;  LOGGER.info("Initialized $MOD_NAME on ${loader.name}") }
 }

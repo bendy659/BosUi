@@ -31,4 +31,4 @@ stonecutter {
 
 rootProject.name = "BosUi"
 
-includeBuild("BosLib")
+includeBuild(".deps.BosLib")

@@ -3,7 +3,7 @@
     "id": "bosui",
     "version": "${version}",
     "name": "BosUi",
-    "description": "Mod-library for help create custom UI for my (_BENDY659_) projects",
+    "description": "Mod-library (associated with Godot) for help create custom UI for my (_BENDY659_) projects",
     "authors": [ "_BENDY659_" ],
     "contact": {},
     "license": "MIT",

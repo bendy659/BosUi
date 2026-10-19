@@ -1,6 +1,7 @@
 plugins {
     id("dev.kikugie.loom-back-compat")
     kotlin("jvm")
+    idea
 }
 
 version = "${property("mod.version")}+${sc.current.version}"
@@ -34,13 +35,26 @@ dependencies {
     modImplementation("net.fabricmc:fabric-loader:${property("deps.fabric_loader")}")
     modImplementation("net.fabricmc:fabric-language-kotlin:${property("deps.fabric_language_kotlin")}")
     modImplementation("BosLib:${sc.current.version}-fabric")
-    fapi("fabric-lifecycle-events-v1", "fabric-resource-loader-v0", "fabric-content-registries-v0", "fabric-registry-sync-v0")
+    fapi(
+        "fabric-lifecycle-events-v1",
+        "fabric-resource-loader-v0",
+        "fabric-content-registries-v0",
+        "fabric-registry-sync-v0",
+        "fabric-key-mapping-api-v1"
+    )
 }
 
 loom {
     fabricModJsonPath = rootProject.file("src/main/resources/fabric.mod.json")
     val awFile = rootProject.file("src/main/resources/bosui.accesswidener")
     if (awFile.exists()) accessWidenerPath = awFile
+
+    runs.all { runDirectory.set(rootProject.file("run")) }
+    runs {
+        named("server") {
+            generateRunConfig.set(false)
+        }
+    }
 
     decompilerOptions.named("vineflower") { options.put("mark-corresponding-synthetics", "1") }
 }
@@ -65,6 +79,8 @@ tasks.processResources {
             "mod_name" to modName
         )
     }
+
+    exclude("META-INF/neoforge.mods.toml")
 }
 
 tasks.withType<JavaCompile>().configureEach {
@@ -91,4 +107,46 @@ tasks.register<Copy>("buildAndCollect") {
     val sourcesTask = if (tasks.names.contains("remapSourcesJar")) tasks.named("remapSourcesJar") else tasks.named("sourcesJar")
     from(jarTask, sourcesTask)
     into(rootProject.layout.buildDirectory.dir("libs/${sc.current.version}"))
+}
+
+val scVersion = sc.current.version
+val scProject = sc.current.project
+val ideaRunConfigsDir = rootProject.layout.projectDirectory.dir(".idea/runConfigurations").asFile
+
+tasks.register("genIdeaRuns") {
+    group = "ide"
+    description = "Generates IntelliJ IDEA run configuration for Fabric Client"
+    notCompatibleWithConfigurationCache("Generates IDE files")
+    doLast {
+        ideaRunConfigsDir.mkdirs()
+        val runFile = File(ideaRunConfigsDir, "$scVersion-fabric_-_Client.xml")
+        runFile.writeText(
+            """
+            <component name="ProjectRunConfigurationManager">
+              <configuration default="false" name="$scVersion-fabric - Client" type="GradleRunConfiguration" factoryName="Gradle">
+                <ExternalSystemSettings>
+                  <option name="executionName" />
+                  <option name="externalProjectPath" value="${'$'}PROJECT_DIR$" />
+                  <option name="externalSystemIdString" value="GRADLE" />
+                  <option name="scriptParameters" value="" />
+                  <option name="taskDescriptions">
+                    <list />
+                  </option>
+                  <option name="taskNames">
+                    <list>
+                      <option value=":$scProject:runClient" />
+                    </list>
+                  </option>
+                  <option name="vmOptions" />
+                </ExternalSystemSettings>
+                <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+                <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+                <DebugAllEnabled>false</DebugAllEnabled>
+                <RunAsTest>false</RunAsTest>
+                <method v="2" />
+              </configuration>
+            </component>
+            """.trimIndent()
+        )
+    }
 }

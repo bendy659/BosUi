@@ -8,7 +8,7 @@ modId="${id}"
 version="${version}"
 displayName="${name}"
 authors="_BENDY659_"
-description="Mod-library for help create custom UI for my (_BENDY659_) projects"
+description="Mod-library (associated with Godot SceneTree system) for help create custom UI for my (_BENDY659_) projects"
 logoFile="icon.png"
 
 [[dependencies.${id}]]

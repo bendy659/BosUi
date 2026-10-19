@@ -36,7 +36,6 @@ neoForge {
 
     runs {
         register("client") { gameDirectory = file("../../run/"); client() }
-        register("server") { gameDirectory = file("../../run/"); server() }
     }
 }
 
